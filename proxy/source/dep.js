@@ -5,6 +5,7 @@ export default class Dep {
     this.effectMap = new WeakMap();
   }
 
+  // 收集依赖
   collect(target, key) {
     const { effectCallback } = Dep;
 
@@ -28,6 +29,7 @@ export default class Dep {
     }
   }
 
+  // 触发收集的依赖
   notify(target, key, value, oldValue) {
     const depMap = this.effectMap.get(target);
 
