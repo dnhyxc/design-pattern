@@ -27,6 +27,8 @@ export default class Dep {
       // 将每一个callback加入对应的Set中
       deps.add(effectCallback);
     }
+
+    console.log(this.effectMap);
   }
 
   // 触发收集的依赖

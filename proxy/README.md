@@ -20,6 +20,7 @@ export const reactive = (data) => {
     set(target, key, value) {
       const oldValue = target[key];
       const res = Reflect.set(target, key, value);
+      // 更改属性值时触发依赖（callback）
       dep.notify(target, key, value, oldValue);
       return res;
     },
@@ -27,10 +28,41 @@ export const reactive = (data) => {
 };
 ```
 
-source/dep.js 文件主要用于实现依赖的收集：
+source/dep.js 文件主要用于实现依赖的收集，以 `{a: 1, b: { c: 2 }}` 为例，实现思路如下：
+
+1. 将劫持的每一个对象作为 key 存储在 `WeakMap` 中，因为存储在 WeakMap 中的对象不需要进行枚举，同时 WeakMap 的 key 可以是一个对象，而且 WeakMap 持有的是每个键对象的“弱引用”，所以可以将其存放在 WeakMap 中，使其没有其他引用存在时垃圾回收能及时回收。
+
+2. 在 WeakMap 中，每个对象所对应的是一个 `Map` 对象，而 Map 对象中，是对象中每个 key（如：a）值所对应的 `Set` 对象，Set 对象中存储的就是对象中每个属性的监听回调（如：watchEffe3ct(() => { ... }) 传入的回调函数），到此就建立了每个 key 与监听它的回调的对应关系。具体结构如下：
+
+```js
+WeakMap: {
+  {a: 1, b: {c: 2}}: Map: {
+    a: Set: {
+      0: () => state.a + state.b.c, // computed
+      1: () => { console.log("watchEffect => state.a", state.a); }, // watchEffect
+      2: (cur, prev) => { console.log(cur, prev); console.log("watch => state.a", state.a); } // watch
+    }
+    b: Set: {
+      0: () => state.a + state.b.c, // computed
+      1: () => { console.log("watchEffect => state.b.c", state.b.c); }, // watchEffect
+      2: (cur, prev) => { console.log(cur, prev); console.log("watch => state.b.c", state.b.c); } // watch
+    }
+  },
+  {c: 2}: Map: {
+    c: Set: {
+      0: () => state.a + state.b.c, // computed
+      1: () => { console.log("watchEffect => state.b.c", state.b.c); }, // watchEffect
+      2: (cur, prev) => { console.log(cur, prev); console.log("watch => state.b.c", state.b.c); } // watch
+    }
+  }
+}
+```
+
+具体实现如下：
 
 ```js
 export default class Dep {
+  // effectCallback 是搜集的对象中每个 key 的监听回调
   static effectCallback = null;
 
   constructor() {
@@ -49,6 +81,14 @@ export default class Dep {
         this.effectMap.set(target, depMap);
       }
 
+      /**
+       * deps 就是每个属性所收集的所有回调：
+       * Set(1){
+       *   0: () => state.a + state.b.c,
+       *   1: () => { console.log("watchEffect => state.a", state.a); }
+       *   2: (cur, prev) => { console.log(cur, prev); console.log("watch => state.a", state.a);
+       * }
+       */
       let deps = depMap.get(key);
 
       if (!deps) {
@@ -56,12 +96,12 @@ export default class Dep {
         depMap.set(key, deps);
       }
 
-      // 将每一个callback加入对应的Set中
+      // 将每一个 callback 加入对应 key 的 Set 中
       deps.add(effectCallback);
     }
   }
 
-  // 触发收集的依赖
+  // 当更改对象中的某个属性值时，即给某个属性重新赋值时，触发该属性所收集的依赖
   notify(target, key, value, oldValue) {
     const depMap = this.effectMap.get(target);
 
@@ -72,7 +112,7 @@ export default class Dep {
     deps.forEach((dep) => {
       const newValue = dep(value, oldValue);
 
-      // 判断dep(callback)上有没有挂computedRef属性，如果有，说明是计算属性，需要把得出的新值赋给它
+      // 判断 dep(callback) 上有没有挂 computedRef 属性，如果有，说明是计算属性，需要把得出的新值赋给它
       if (dep.computedRef) {
         dep.computedRef.value = newValue;
       }
@@ -107,6 +147,7 @@ import Dep from "./dep";
 
 export const watchEffect = (callback) => {
   Dep.effectCallback = callback;
+  // watchEffect 初始化时就会被触发一次，所以需要自动调用
   callback();
   Dep.effectCallback = null;
 };
@@ -119,17 +160,18 @@ export const watch = (fn, callback) => {
 
 export const computed = (callback) => {
   Dep.effectCallback = callback;
-
   const value = callback();
-
   const computedRef = new ComputedRef(value);
-
+  /**
+   * 将 computedRef 实例对象挂载到 callback 上，
+   * 使在更改属性值触发收集的回调函数（callbacl）时，
+   * 能在 notify 中获取到 computedRef 实例，
+   * 并将计算出来的新值赋值给 computedRef 实例。
+   */
   Object.defineProperty(callback, "computedRef", {
     value: computedRef,
   });
-
   Dep.effectCallback = null;
-
   return computedRef;
 };
 ```
