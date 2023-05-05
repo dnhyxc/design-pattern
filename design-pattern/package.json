@@ -1,0 +1,15 @@
+{
+  "name": "design-pattern",
+  "version": "1.0.0",
+  "description": "建造者模式（builder pattern）属于创建型模式的一种，提供一种创建复杂对象的方式。它将一个复杂的对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vite": "^4.3.5"
+  }
+}
