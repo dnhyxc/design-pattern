@@ -1,5 +1,107 @@
-// 组合模式
+### 组合模式
 
+组合模式在对象间形成树形结构，组合模式中基本对象和组合对象被一致对待。无需关心对象有多少层，调用时只需在根部进行调用。
+
+它在树形结构的问题中，模糊了简单元素和复杂元素的概念，客户程序可以像处理简单元素一样来处理复杂元素，从而使得客户程序与复杂元素的内部结构解耦。
+
+#### 基本实现
+
+```js
+// 第一级类
+class FirstStage {
+  constructor(menu) {
+    this.menu = menu;
+    this.list = []; // 用于存储子级
+  }
+
+  add(data) {
+    this.list.push(data);
+  }
+
+  render() {
+    // 开始渲染父级菜单
+    console.log("开始渲染第一级：", this.menu);
+    this.list.forEach((i) => {
+      i.render();
+    });
+  }
+}
+
+// 第二级类
+class SecondStage {
+  constructor(menu) {
+    this.menu = menu;
+    this.list = [];
+  }
+
+  add(data) {
+    this.list.push(data);
+  }
+
+  render() {
+    console.log("开始渲染第二级：", this.menu);
+    this.list.forEach((i) => {
+      i.render();
+    });
+  }
+}
+
+// 根
+const rootMenu = new FirstStage("root");
+// 子级
+const menu1 = new FirstStage("菜单1");
+const menu2 = new FirstStage("菜单2");
+const menu3 = new FirstStage("菜单3");
+
+// 子级的子级（孙子级）
+const menu1_1 = new SecondStage("菜单1_1");
+const menu1_2 = new SecondStage("菜单1_2");
+const menu2_1 = new SecondStage("菜单2_1");
+const menu2_2 = new SecondStage("菜单2_2");
+const menu3_1 = new SecondStage("菜单3_1");
+const menu3_2 = new SecondStage("菜单3_2");
+
+// 这里可以根据权限动态向根节点添加数据
+rootMenu.add(menu1);
+rootMenu.add(menu2);
+rootMenu.add(menu3);
+
+// 这里可以根据权限动态向子级中添加数据
+menu1.add(menu1_1);
+menu1.add(menu1_2);
+menu2.add(menu2_1);
+menu2.add(menu2_2);
+menu3.add(menu3_1);
+menu3.add(menu3_2);
+
+rootMenu.render();
+```
+
+#### 使用场景
+
+用于根据**权限**实现树形菜单结构：
+
+- index.html 文件内容：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>组合模式</title>
+    <script type="module" src="./index.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+- index.js 文件内容：
+
+```js
 // 第一级类
 class FirstStage {
   constructor(menu) {
@@ -120,3 +222,4 @@ menu3_2.add(menu3_2_1);
 menu3_2.add(menu3_2_2);
 
 rootMenu.render();
+```

@@ -1,8 +1,6 @@
 /**
  * 发布订阅模式
  */
-console.log("============发布订阅模式begin=============");
-
 class SubPub {
   constructor() {
     this.observers = {};
@@ -111,5 +109,3 @@ sub.onclick = () => {
   subPub1.on("msg2", sub1);
   console.log("重新增加所有监听了");
 };
-
-console.log("============发布订阅模式end=============");
