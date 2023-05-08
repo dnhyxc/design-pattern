@@ -1,3 +1,5 @@
+// 模板方法模式
+
 class Container {
   constructor(params = {}) {
     this.params = params;

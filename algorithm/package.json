@@ -1,0 +1,15 @@
+{
+  "name": "algorithm",
+  "version": "1.0.0",
+  "description": "```js\r function findLetterRepeatCount(str) {\r   const context = {\r     startPos: 0, // 起始位置\r     cursor: 0, // 指针向右移动的位置\r     maxCount: 0, // 最大数量\r     letter: \"\", // 最长字符\r     str, // 源数据\r   };",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "vite": "^4.3.5"
+  }
+}

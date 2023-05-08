@@ -40,6 +40,7 @@ function moveCursor(context) {
   context.startPos = context.cursor;
 }
 
-const testStr = "";
+const testStr =
+  "dddddwwwwwwwnnnnnnnnnnnnnnnnnnnnnnnnnnnnhhhhhhhhhhhhhhhhhxxxxxxxxxx";
 const result = findLetterRepeatCount(testStr);
 console.log(result, "result");
