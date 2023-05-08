@@ -9,7 +9,7 @@ function findLetterRepeatCount(str) {
 
   if (context.cursor === context.str.length) {
     return {
-      maxCount: 1,
+      maxCount: 0,
       letter: context.str[0] || "",
     };
   }
@@ -44,3 +44,30 @@ const testStr =
   "dddddwwwwwwwnnnnnnnnnnnnnnnnnnnnnnnnnnnnhhhhhhhhhhhhhhhhhxxxxxxxxxx";
 const result = findLetterRepeatCount(testStr);
 console.log(result, "result");
+
+function getLetterRepeatCount(str) {
+  let startPos = 0;
+  let cursor = 0;
+  let maxCount = 0;
+  let maxStr = "";
+
+  while (cursor < str.length) {
+    if (str[cursor] !== str[startPos]) {
+      if (cursor - startPos > maxCount) {
+        maxCount = cursor - startPos;
+        maxStr = str[cursor - 1];
+      }
+      startPos = cursor;
+    }
+    cursor++;
+  }
+
+  return {
+    maxCount,
+    maxStr,
+  };
+}
+
+const maxInfo = getLetterRepeatCount(testStr);
+
+console.log(maxInfo, "maxInfo");

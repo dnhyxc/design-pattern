@@ -38,6 +38,12 @@ class TaskQueue {
         console.log(err);
       })
       .finally(() => {
+        /**
+         * 当上述 run 方法种的 for 循环执行时，
+         * 因为 for 循环是同步任务，因此，this.max-- 会使 max 直接变为 0，
+         * 之后开始执行微任务（promise），当某个微任务执行完毕时，就会执行 this.max++，
+         * 当执行完 limit 最大限制的微任务时，this.max 又会变成 limit 的值。
+         */
         this.max++;
         this.run();
       });
@@ -86,13 +92,14 @@ async function asyncPool({ limit, items }) {
     promises.push(promise);
     pool.add(promise);
 
-    promise.finally(() => {
-      pool.delete(promise);
-    });
-
+    // 当任务数超过最大限制数时，就需要执行加入的任务，使其执行完成从任务池中删除，以添加新的任务进入
     if (pool.size >= limit) {
       await Promise.race(pool);
     }
+
+    promise.finally(() => {
+      pool.delete(promise);
+    });
   }
 
   return Promise.all(promises);
@@ -112,4 +119,4 @@ async function start() {
   console.log("结束");
 }
 
-// start();
+start();
