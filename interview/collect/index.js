@@ -9,7 +9,7 @@
  * 绑定事件处理函数如何解决 this 指向问题
  */
 
-import { createApp } from "./source/collect";
+import { createApp } from "./source/createApp";
 import { ref } from "./source/hooks";
 
 createApp("#app", {
