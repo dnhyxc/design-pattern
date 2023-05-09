@@ -11,6 +11,7 @@ export function reactive(data) {
         ? reactive(value)
         : value;
     },
+
     set(target, key, value) {
       const oldValue = Reflect.get(target, key);
       const res = Reflect.set(target, key, value);
