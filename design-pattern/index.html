@@ -11,12 +11,53 @@
         margin: 20px 0;
       }
 
-      #protoContent1 .container .active {
-        background-color: red;
+      .container .header {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0;
       }
 
-      #protoContent2 .container .active {
-        background-color: red;
+      .container .header li {
+        width: 80px;
+        height: 32px;
+        line-height: 32px;
+        border: 1px solid #ccc;
+        list-style: none;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .container .header li:not(:last-child) {
+        border-right: none;
+      }
+
+      .container .header .active {
+        background-color: skyblue;
+      }
+
+      .container .box {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        list-style: none;
+      }
+
+      .container .box {
+        list-style: none;
+        padding: 0;
+      }
+      .container .box li {
+        list-style: none;
+        display: none;
+      }
+
+      .container .box .active {
+        display: block;
+        background-color: #efefef;
+        height: 60px;
+        width: 467px;
+        padding: 10px;
       }
     </style>
   </head>
@@ -66,46 +107,9 @@
 
     <div id="prototype">
       <span>原型链模式</span>
-      <div id="protoContent1">
-        <!-- <div class="container">
-          <ul class="header">
-            <li class="active">1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-          </ul>
-          <ul class="box">
-            <li class="active">111</li>
-            <li>222</li>
-            <li>333</li>
-            <li>444</li>
-            <li>555</li>
-            <li>666</li>
-          </ul>
-        </div> -->
-      </div>
-      <div id="protoContent2">
-        <!-- <div class="container">
-          <ul class="header">
-            <li class="active">1</li>
-            <li>2</li>
-            <li>3</li>
-            <li>4</li>
-            <li>5</li>
-            <li>6</li>
-          </ul>
-          <ul class="box">
-            <li class="active">111</li>
-            <li>222</li>
-            <li>333</li>
-            <li>444</li>
-            <li>555</li>
-            <li>666</li>
-          </ul>
-        </div> -->
-      </div>
+      <div id="page1"></div>
+      <div id="page2"></div>
+      <div id="page3"></div>
     </div>
   </body>
 </html>

@@ -20,7 +20,6 @@ obj1.say();
 obj2.say();
 
 // 使用类实现
-
 class Create {
   constructor(name, age) {
     this.name = name;
@@ -47,9 +46,11 @@ class Tabs {
     this.type = type;
   }
 
+  // 创建元素
   createElement() {
     return `
       <div class="container">
+        <span>${this.el}</span>
         <ul class="header">
           <li class="active">1</li>
           <li>2</li>
@@ -70,6 +71,7 @@ class Tabs {
     `;
   }
 
+  // 渲染元素
   render() {
     const element = this.createElement();
     const el = document.querySelector(this.el);
@@ -77,6 +79,7 @@ class Tabs {
     this.init();
   }
 
+  // 操作元素，改变元素样式
   init() {
     const element = document.querySelector(this.el);
     this.container = element.querySelector(".container");
@@ -103,8 +106,10 @@ class Tabs {
   }
 }
 
-const tab1 = new Tabs("#protoContent1", "click");
-const tab2 = new Tabs("#protoContent2", "mouseover");
+const tab1 = new Tabs("#page1", "click");
+const tab2 = new Tabs("#page2", "mouseover");
+const tab3 = new Tabs("#page3", "dblclick");
 
 tab1.render();
 tab2.render();
+tab3.render();
