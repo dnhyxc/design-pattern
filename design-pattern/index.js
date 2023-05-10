@@ -10,4 +10,6 @@
 // import "./src/builder"; // 建造者模式
 // import "./src/chain"; // 责任链模式
 // import "./src/singleton"; // 单例模式
-import "./src/decorator"; // 装饰器模式
+// import "./src/decorator"; // 装饰器模式
+// import "./src/adapter"; // 适配器模式
+import "./src/strategy"; // 策略模式

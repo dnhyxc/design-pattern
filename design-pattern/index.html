@@ -110,6 +110,30 @@
       .single-modal .footer button:last-child {
         background-color: skyblue;
       }
+
+      #strategyWrap {
+        margin-top: 20px;
+        width: 300px;
+      }
+
+      #strategyWrap .item {
+        display: flex;
+        justify-content: space-between;
+        padding: 5px;
+        background-color: #eee;
+      }
+
+      #strategyWrap .item .redType {
+        background-color: red;
+      }
+
+      #strategyWrap .item .orangeType {
+        background-color: orange;
+      }
+
+      #strategyWrap .item .greenType {
+        background-color: green;
+      }
     </style>
   </head>
   <body>
@@ -169,5 +193,8 @@
       <button id="changeTitltBtn">更换标题</button>
       <button id="changeContentBtn">更换内容</button>
     </div>
+    <hr />
+
+    <div id="strategyWrap"></div>
   </body>
 </html>
