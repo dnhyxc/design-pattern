@@ -59,6 +59,57 @@
         width: 467px;
         padding: 10px;
       }
+
+      #changeTitltBtn {
+        display: none;
+      }
+
+      #changeContentBtn {
+        display: none;
+      }
+
+      .single-modal {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 350px;
+        height: 200px;
+        margin-top: 20px;
+        background-color: #eee;
+      }
+
+      .single-modal .title {
+        height: 32px;
+        line-height: 32px;
+        background-color: #ddd;
+        padding: 0 10px;
+      }
+
+      .single-modal .content-body {
+        display: flex;
+        justify-content: center;
+        padding: 0 10px;
+      }
+
+      .single-modal .footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 5px 10px;
+      }
+
+      .single-modal .footer button {
+        height: 32px;
+        width: 88px;
+        margin-left: 10px;
+        border: 1px solid #efefef;
+        background-color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .single-modal .footer button:last-child {
+        background-color: skyblue;
+      }
     </style>
   </head>
   <body>
@@ -110,6 +161,13 @@
       <div id="page1"></div>
       <div id="page2"></div>
       <div id="page3"></div>
+      <hr />
+    </div>
+
+    <div id="singletonWrap">
+      <button id="singletonBtn">打开弹窗</button>
+      <button id="changeTitltBtn">更换标题</button>
+      <button id="changeContentBtn">更换内容</button>
     </div>
   </body>
 </html>

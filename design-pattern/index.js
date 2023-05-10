@@ -6,6 +6,8 @@
 // import "./src/template"; // 模板方法模式
 // import "./src/iterador"; // 迭代器模式
 // import "./src/constructor"; // 构造器模式
-import "./src/prototype"; // 原型模式
-import "./src/builder"; // 建造者模式
-import "./src/chain"; // 责任链模式
+// import "./src/prototype"; // 原型模式
+// import "./src/builder"; // 建造者模式
+// import "./src/chain"; // 责任链模式
+// import "./src/singleton"; // 单例模式
+import "./src/decorator"; // 装饰器模式
